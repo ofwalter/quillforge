@@ -64,16 +64,13 @@ export const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
   };
 
   useEffect(() => {
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-    }
-
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging]);
+  }, [handleMouseMove, handleMouseUp]);
 
   const handleTitleSubmit = () => {
     setIsEditing(false);

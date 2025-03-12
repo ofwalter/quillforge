@@ -50,11 +50,7 @@ export async function POST(req: Request) {
         note: null
       });
     }
-  } catch (error) {
-    console.error('Error:', error);
-    return NextResponse.json(
-      { error: "Error processing your request" },
-      { status: 500 }
-    );
+  } catch (e) {
+    return NextResponse.json({ error: "Failed to process request" }, { status: 500 });
   }
 } 

@@ -65,16 +65,16 @@ export const NoteBoard: React.FC = () => {
   };
 
   useEffect(() => {
-    const handleNewNote = (e: KeyboardEvent) => {
-      if (e.key === 'n' && (e.metaKey || e.ctrlKey)) {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
         e.preventDefault();
         createNewNote();
       }
     };
 
-    window.addEventListener('keydown', handleNewNote);
-    return () => window.removeEventListener('keydown', handleNewNote);
-  }, [notes]);
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [createNewNote]);
 
   return (
     <div className="relative w-full h-full overflow-hidden">

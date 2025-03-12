@@ -22,7 +22,7 @@ export default function LearnPage() {
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-center space-x-2">
                 <FaMousePointer className="w-4 h-4 text-primary/60" />
-                <span>Click the "Add Note" button in the bottom right</span>
+                <span>Click the &quot;Add Note&quot; button in the bottom right</span>
               </li>
               <li className="flex items-center space-x-2">
                 <FaMousePointer className="w-4 h-4 text-primary/60" />
@@ -72,7 +72,7 @@ export default function LearnPage() {
               </li>
               <li className="flex items-center space-x-2">
                 <FaMousePointer className="w-4 h-4 text-primary/60" />
-                <span>Click a note's title to edit it</span>
+                <span>Click a note&apos;s title to edit it</span>
               </li>
             </ul>
           </section>
