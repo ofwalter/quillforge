@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background min-h-screen m-0 p-0 overflow-hidden;
+  }
+}
+
+@layer components {
+  .note-shadow {
+    @apply shadow-lg hover:shadow-xl transition-shadow duration-200;
+  }
+
+  .note-transition {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .drag-handle {
+    @apply cursor-move select-none;
+  }
+
+  input[type="checkbox"] {
+    @apply appearance-none bg-transparent border-2 border-black/30 rounded cursor-pointer relative transition-all w-4 h-4;
+  }
+
+  input[type="checkbox"]:checked {
+    @apply bg-black/80 border-black/80;
+  }
+
+  input[type="checkbox"]:checked::after {
+    content: "";
+    @apply absolute left-1 top-0 w-1 h-2 border-r-2 border-b-2 border-white rotate-45;
+  }
+}
+
+/* Custom styles for the sticky notes */
+.note-shadow {
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  width: 16px;
+  height: 16px;
+}
+
+input[type="checkbox"]:checked {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-color: rgba(0, 0, 0, 0.8);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Smooth transitions */
+.note-transition {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+/* Ensure proper z-index stacking */
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+/* Fix for note dragging */
+.drag-handle {
+  cursor: move;
+  user-select: none;
+} 
