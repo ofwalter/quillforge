@@ -108,15 +108,10 @@ export const NoteBoard: React.FC = () => {
     const buttonAreaWidth = 200;
     const buttonAreaHeight = 80;
 
-    // Calculate a random position that avoids the navbar and button areas
-    let x, y;
-    do {
-      x = Math.random() * (window.innerWidth - 350);
-      y = Math.random() * (window.innerHeight - 150);
-    } while (
-      (y < navbarHeight && x < navbarWidth) ||
-      (y > window.innerHeight - buttonAreaHeight && x > window.innerWidth - buttonAreaWidth)
-    );
+    // For AI notes, position them near the top of the screen
+    // but still avoid the navbar area
+    let x = navbarWidth + Math.random() * (window.innerWidth - navbarWidth - 350);
+    let y = navbarHeight + 20; // Just below the navbar with a small gap
 
     // Split content into title and todos
     const lines = content.split('\n').filter(line => line.trim());
