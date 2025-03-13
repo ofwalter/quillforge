@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Note } from './Note';
 import { Note as NoteType, loadNotes, saveNotes, generateNoteId, generateRandomNoteColor } from '@/lib/localStorage';
 import { FaTrash } from 'react-icons/fa';
+import { AIChat } from '../ai/AIChat';
 
 export const NoteBoard: React.FC = () => {
   const [notes, setNotes] = useState<NoteType[]>([]);
@@ -15,13 +16,17 @@ export const NoteBoard: React.FC = () => {
       // Create a welcome note if no notes exist
       const welcomeNote: NoteType = {
         id: generateNoteId(),
-        title: 'Welcome to QuillForge! 👋',
+        title: 'Welcome to QuillForge 🖋️ 👋',
         color: '#f8e3a3',
-        position: { x: window.innerWidth / 2 - 150, y: window.innerHeight / 2 - 100 },
+        position: { 
+          x: Math.max(0, (window.innerWidth - 300) / 2), 
+          y: Math.max(0, (window.innerHeight - 250) / 2)
+        },
         todos: [
           { id: generateNoteId(), text: 'Click and drag this note to move it', completed: false, createdAt: new Date().toISOString() },
           { id: generateNoteId(), text: 'Add new notes with the + button', completed: false, createdAt: new Date().toISOString() },
-          { id: generateNoteId(), text: 'Type below to add tasks', completed: false, createdAt: new Date().toISOString() }
+          { id: generateNoteId(), text: 'Type below to add tasks', completed: false, createdAt: new Date().toISOString() },
+          { id: generateNoteId(), text: 'Try the QuillAI chat to instantly create notes!', completed: false, createdAt: new Date().toISOString() }
         ],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -97,6 +102,49 @@ export const NoteBoard: React.FC = () => {
     setShowDeleteConfirm(false);
   };
 
+  const handleAIGeneratedNote = (content: string) => {
+    const navbarWidth = 300;
+    const navbarHeight = 80;
+    const buttonAreaWidth = 200;
+    const buttonAreaHeight = 80;
+
+    // Calculate a random position that avoids the navbar and button areas
+    let x, y;
+    do {
+      x = Math.random() * (window.innerWidth - 350);
+      y = Math.random() * (window.innerHeight - 150);
+    } while (
+      (y < navbarHeight && x < navbarWidth) ||
+      (y > window.innerHeight - buttonAreaHeight && x > window.innerWidth - buttonAreaWidth)
+    );
+
+    // Split content into title and todos
+    const lines = content.split('\n').filter(line => line.trim());
+    const title = lines[0];
+    const todos = lines.slice(1).map(line => ({
+      id: generateNoteId(),
+      text: line.replace(/^[-*•]\s*/, '').trim(),
+      completed: false,
+      createdAt: new Date().toISOString()
+    }));
+
+    const newNote: NoteType = {
+      id: generateNoteId(),
+      title: title || 'AI Generated Note',
+      todos,
+      position: { x, y },
+      color: generateRandomNoteColor(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    setNotes(prevNotes => {
+      const updatedNotes = [...prevNotes, newNote];
+      saveNotes(updatedNotes);
+      return updatedNotes;
+    });
+  };
+
   return (
     <div className="relative w-full h-full overflow-hidden">
       {notes.map(note => (
@@ -123,6 +171,8 @@ export const NoteBoard: React.FC = () => {
           + New Note
         </button>
       </div>
+
+      <AIChat onGenerateNote={handleAIGeneratedNote} />
 
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">

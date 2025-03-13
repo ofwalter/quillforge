@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaFeather, FaPlus, FaMousePointer, FaPalette, FaCheck, FaTrash, FaKeyboard, FaDatabase } from 'react-icons/fa';
+import { FaFeather, FaPlus, FaMousePointer, FaPalette, FaCheck, FaTrash, FaDatabase, FaRobot, FaMagic, FaBrain } from 'react-icons/fa';
 
 export default function LearnPage() {
   return (
@@ -64,21 +64,21 @@ export default function LearnPage() {
 
           <section className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
             <div className="flex items-center space-x-3 mb-4 text-primary">
-              <FaKeyboard className="w-6 h-6" />
-              <h2 className="text-xl font-semibold">Keyboard Shortcuts</h2>
+              <FaRobot className="w-6 h-6" />
+              <h2 className="text-xl font-semibold">QuillAI Assistant</h2>
             </div>
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-center space-x-2">
-                <kbd className="px-2 py-1 bg-gray-100 rounded text-sm">Ctrl/⌘ + N</kbd>
-                <span>Create a new note</span>
+                <FaMagic className="w-4 h-4 text-primary/60" />
+                <span>Type your ideas in the QuillAI chat</span>
               </li>
               <li className="flex items-center space-x-2">
-                <kbd className="px-2 py-1 bg-gray-100 rounded text-sm">Enter</kbd>
-                <span>Add a new task</span>
+                <FaBrain className="w-4 h-4 text-primary/60" />
+                <span>QuillAI converts your input into organized notes</span>
               </li>
               <li className="flex items-center space-x-2">
-                <FaMousePointer className="w-4 h-4 text-primary/60" />
-                <span>Click a note&apos;s title to edit it</span>
+                <FaRobot className="w-4 h-4 text-primary/60" />
+                <span>Perfect for quick lists and meeting notes</span>
               </li>
             </ul>
           </section>
@@ -98,8 +98,8 @@ export default function LearnPage() {
                 <span>Your notes persist between sessions</span>
               </li>
               <li className="flex items-center space-x-2">
-                <FaMousePointer className="w-4 h-4 text-primary/60" />
-                <span>Note positions are remembered</span>
+                <FaTrash className="w-4 h-4 text-primary/60" />
+                <span>Clear all notes with the trash button</span>
               </li>
             </ul>
           </section>
