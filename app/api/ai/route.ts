@@ -43,14 +43,15 @@ export async function POST(req: Request) {
         } : null
       });
     } catch (error) {
-      // If we can't parse JSON, just return the message
+      console.error('Failed to parse JSON:', error);
       return NextResponse.json({
         message: content,
         isNote: false,
         note: null
       });
     }
-  } catch (e) {
+  } catch (error) {
+    console.error('Failed to process request:', error);
     return NextResponse.json({ error: "Failed to process request" }, { status: 500 });
   }
 } 

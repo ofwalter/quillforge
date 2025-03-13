@@ -23,54 +23,47 @@ export const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
   }, [note.position]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).closest('input') || 
-        (e.target as HTMLElement).closest('button') ||
-        (e.target as HTMLElement).tagName === 'INPUT' ||
-        (e.target as HTMLElement).tagName === 'BUTTON') {
+    if (e.target instanceof HTMLElement && 
+       (e.target.tagName === 'INPUT' || 
+        e.target.tagName === 'BUTTON' || 
+        e.target.closest('button'))) {
       return;
     }
     
     e.preventDefault();
     setIsDragging(true);
-    dragStartPos.current = {
-      x: e.clientX - notePos.current.x,
-      y: e.clientY - notePos.current.y
-    };
-  };
-
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging) return;
-
-    const newX = Math.max(0, e.clientX - dragStartPos.current.x);
-    const newY = Math.max(0, e.clientY - dragStartPos.current.y);
-
-    if (noteRef.current) {
-      noteRef.current.style.transform = `translate(${newX}px, ${newY}px)`;
-    }
-  };
-
-  const handleMouseUp = (e: MouseEvent) => {
-    if (!isDragging) return;
-
-    setIsDragging(false);
-    const newX = Math.max(0, e.clientX - dragStartPos.current.x);
-    const newY = Math.max(0, e.clientY - dragStartPos.current.y);
-
-    onUpdate({
-      ...note,
-      position: { x: newX, y: newY },
-      updatedAt: new Date().toISOString()
-    });
+    document.body.style.cursor = 'move';
+    dragStartPos.current = { x: e.clientX - note.position.x, y: e.clientY - note.position.y };
   };
 
   useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      e.preventDefault();
+      const newX = Math.max(0, Math.min(window.innerWidth - 300, e.clientX - dragStartPos.current.x));
+      const newY = Math.max(0, Math.min(window.innerHeight - 300, e.clientY - dragStartPos.current.y));
+      
+      onUpdate({
+        ...note,
+        position: { x: newX, y: newY },
+        updatedAt: new Date().toISOString()
+      });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      document.body.style.cursor = 'default';
+    };
+
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
+    
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [handleMouseMove, handleMouseUp]);
+  }, [isDragging, note, onUpdate]);
 
   const handleTitleSubmit = () => {
     setIsEditing(false);

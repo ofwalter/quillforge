@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Note } from './Note';
 import { Note as NoteType, loadNotes, saveNotes, generateNoteId, generateRandomNoteColor } from '@/lib/localStorage';
 
@@ -45,24 +45,22 @@ export const NoteBoard: React.FC = () => {
     saveNotes(updatedNotes);
   };
 
-  const createNewNote = () => {
+  const createNewNote = useCallback(() => {
     const newNote: NoteType = {
       id: generateNoteId(),
       title: 'New Note',
-      color: generateRandomNoteColor(),
-      position: { 
-        x: Math.max(50, Math.random() * (window.innerWidth - 350)), 
-        y: Math.max(50, Math.random() * (window.innerHeight - 350)) 
-      },
       todos: [],
+      position: { x: Math.random() * 100, y: Math.random() * 100 },
+      color: generateRandomNoteColor(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
-
-    const updatedNotes = [...notes, newNote];
-    setNotes(updatedNotes);
-    saveNotes(updatedNotes);
-  };
+    setNotes(prevNotes => {
+      const updatedNotes = [...prevNotes, newNote];
+      saveNotes(updatedNotes);
+      return updatedNotes;
+    });
+  }, []);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
