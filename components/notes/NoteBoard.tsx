@@ -105,13 +105,11 @@ export const NoteBoard: React.FC = () => {
   const handleAIGeneratedNote = (content: string) => {
     const navbarWidth = 300;
     const navbarHeight = 80;
-    const buttonAreaWidth = 200;
-    const buttonAreaHeight = 80;
 
     // For AI notes, position them near the top of the screen
     // but still avoid the navbar area
-    let x = navbarWidth + Math.random() * (window.innerWidth - navbarWidth - 350);
-    let y = navbarHeight + 20; // Just below the navbar with a small gap
+    const x = navbarWidth + Math.random() * (window.innerWidth - navbarWidth - 350);
+    const y = navbarHeight + 20; // Just below the navbar with a small gap
 
     // Split content into title and todos
     const lines = content.split('\n').filter(line => line.trim());
