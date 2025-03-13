@@ -43,16 +43,26 @@ export async function POST(request: Request) {
     console.log('Received response from OpenAI:', content);
 
     return NextResponse.json({ content });
-  } catch (error: any) {
-    console.error('OpenAI API error:', error.message);
-    if (error.code === 'invalid_api_key') {
-      return NextResponse.json(
-        { error: 'Invalid API key. Please check your OpenAI API key configuration.' },
-        { status: 401 }
-      );
+  } catch (error) {
+    console.error('OpenAI API error:', error);
+    
+    // Type guard to check if error is an object with code property
+    if (error && typeof error === 'object' && 'code' in error) {
+      if (error.code === 'invalid_api_key') {
+        return NextResponse.json(
+          { error: 'Invalid API key. Please check your OpenAI API key configuration.' },
+          { status: 401 }
+        );
+      }
     }
+
+    // Get error message safely
+    const errorMessage = error && typeof error === 'object' && 'message' in error
+      ? error.message
+      : 'An unknown error occurred';
+
     return NextResponse.json(
-      { error: 'Failed to generate note content: ' + error.message },
+      { error: 'Failed to generate note content: ' + errorMessage },
       { status: 500 }
     );
   }
