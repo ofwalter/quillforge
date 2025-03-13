@@ -5,13 +5,19 @@ export default function LearnPage() {
   return (
     <main className="min-h-screen bg-background p-8 pt-20 overflow-y-auto">
       <div className="max-w-4xl mx-auto">
-        <Link
-          href="/"
-          className="inline-flex items-center space-x-2 mb-12 text-primary hover:opacity-80 transition-opacity"
-        >
-          <FaFeather className="w-8 h-8" />
-          <span className="text-3xl font-semibold">QuillForge</span>
-        </Link>
+        <div className="flex justify-between items-center mb-6">
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-2 text-primary hover:opacity-80 transition-opacity"
+          >
+            <FaFeather className="w-8 h-8" />
+            <span className="text-3xl font-semibold">QuillForge</span>
+          </Link>
+
+          <h1 className="text-lg font-semibold text-[#3b7ea1]">
+            Created by Owen Walter
+          </h1>
+        </div>
 
         <div className="grid gap-8 md:grid-cols-2">
           <section className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">

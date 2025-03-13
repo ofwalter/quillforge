@@ -41,8 +41,38 @@ export const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
 
     const handleMouseMove = (e: MouseEvent) => {
       e.preventDefault();
-      const newX = Math.max(0, Math.min(window.innerWidth - 300, e.clientX - dragStartPos.current.x));
-      const newY = Math.max(0, Math.min(window.innerHeight - 300, e.clientY - dragStartPos.current.y));
+      const navbarWidth = 300; // Width of the navbar area
+      const navbarHeight = 80; // Height of the navbar area
+      const buttonAreaWidth = 200; // Width of the button area (adjusted for both buttons)
+      const buttonAreaHeight = 80; // Height of the button area
+
+      let newX = e.clientX - dragStartPos.current.x;
+      let newY = e.clientY - dragStartPos.current.y;
+
+      // Prevent overlapping with navbar area (top left)
+      if (newY < navbarHeight && newX < navbarWidth) {
+        if (Math.abs(newY - navbarHeight) < Math.abs(newX - navbarWidth)) {
+          newY = navbarHeight;
+        } else {
+          newX = navbarWidth;
+        }
+      }
+
+      // Prevent overlapping with button area (bottom right)
+      const bottomRightX = window.innerWidth - buttonAreaWidth;
+      const bottomRightY = window.innerHeight - buttonAreaHeight;
+
+      if (newY > bottomRightY && newX > bottomRightX) {
+        if (Math.abs(newY - bottomRightY) < Math.abs(newX - bottomRightX)) {
+          newY = bottomRightY;
+        } else {
+          newX = bottomRightX;
+        }
+      }
+
+      // Keep notes within viewport bounds
+      newX = Math.max(0, Math.min(window.innerWidth - 300, newX));
+      newY = Math.max(0, Math.min(window.innerHeight - 100, newY));
       
       onUpdate({
         ...note,
