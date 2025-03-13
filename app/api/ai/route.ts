@@ -22,8 +22,11 @@ export async function POST(req: Request) {
     });
     
     const content = response.choices[0].message.content;
+    if (!content) {
+      return NextResponse.json({ error: "No content received from AI" }, { status: 500 });
+    }
+
     let parsedContent;
-    
     try {
       parsedContent = JSON.parse(content);
       // Check if this looks like a note (has title and todos)
